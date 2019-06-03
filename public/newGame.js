@@ -20,14 +20,22 @@ socket.emit("newGame", {
     hostId: ownId
 });
 
-socket.on("updatePlayers", function(data){
-    var newList = "";
-    data.newClients.forEach(client => {
-        newList += "<li>" + client.name + "</li>";
+socket.on("checkIfOnline", function(){
+    socket.emit("stillConnected",{
+        hostId: ownId
     });
-    allPlayersList.innerHTML = newList;
+});
 
-    playerCount ++;
+socket.on("updatePlayers", function(data){
+    if(gameId == data.gameId){
+        var newList = "";
+        data.newClients.forEach(client => {
+            newList += "<li>" + client.name + "</li>";
+        });
+        allPlayersList.innerHTML = newList;
+    
+        playerCount = data.newClients.length;
+    }
 });
 
 start.addEventListener("click", function(){

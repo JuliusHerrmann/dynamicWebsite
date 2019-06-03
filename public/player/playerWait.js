@@ -16,3 +16,9 @@ socket.on("continueToGame", function(data){
         });
     }
 });
+
+socket.on("closeGame", function(data){
+    if(data.gameId == gameId){
+        console.log("game closed");
+    }
+});

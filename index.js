@@ -17,25 +17,49 @@ var allGames = [];
 var io = socket(server);
 
 //Track current connections
-var currentClients = []
+var currentHosts = []
+var stillConnectedHosts = [];
 //Check what connections are still there, delete games if host is disconnected
 //use setInterval(function, 3000) and setTimeout(function, 3000)
 
-io.sockets.emit("checkIfOnline");
+setInterval(function(){
+    stillConnectedHosts = [];
+    io.sockets.emit("checkIfOnline");
+    setTimeout(function(){  
+        console.log("connected hosts: " + currentHosts + "\nreally: " + stillConnectedHosts);
+        currentHosts.forEach(host => {
+            if(stillConnectedHosts.indexOf(host) == -1){
+                console.log("Game closed with hostId: " + host);
+                allGames.forEach(game => {
+                    if(game.hostId == host){
+                        io.sockets.emit("closeGame", {
+                            gameId: game.gameId
+                        });
+                        allGames.splice(allGames.indexOf(game), 1);
+                    }
+                });
+            }
+        });
+        console.log(allGames);
+        currentHosts = stillConnectedHosts;
+
+    }, 200);
+}, 20000);
 
 io.on("connection", function(socket){
-    console.log("made connection to " + socket.id);
-    console.log("Number of all games currently played: " + allGames.length);
+    //console.log("made connection to " + socket.id);
 
+    socket.on("stillConnected", function(data){
+        stillConnectedHosts.push(data.hostId);
+    });
     //Receive data and create a new game
     socket.on("newGame", function(data){
+        currentHosts.push(data.hostId);
         allGames.push({
             gameId: data.gameId,
             hostId: data.hostId,
-            clients: [],
-            hostSocket: 0
+            clients: []
         });
-        console.log("gameId: " + data.gameId + "\nhost Id: " + data.hostId);
     });
 
     //Join request for game
@@ -54,7 +78,7 @@ io.on("connection", function(socket){
 
                 if(newPlayer){         
                     //Game exists and name is not already given, add client to game
-                    console.log("Id found game id:" + game.gameId + " client to join: " + data.clientId);
+                    //console.log("Id found game id:" + game.gameId + " client to join: " + data.clientId);
                     //game.clientIds.push(data.clientId);
                     game.clients.push({
                         clientId: data.clientId,
@@ -70,7 +94,8 @@ io.on("connection", function(socket){
 
                     //Update player list
                     io.sockets.emit("updatePlayers", {
-                        newClients: game.clients
+                        newClients: game.clients,
+                        gameId: data.gameId
                     });
                 }else{
                     //Respond to client, in this case the client can not join because the name is already given

@@ -5,6 +5,7 @@ var newGame = document.getElementById("newGame");
 var joinGameInput = document.getElementById("joinGameInput");
 var joinGame = document.getElementById("joinGame");
 var clientName = document.getElementById("clientName");
+var content = document.getElementById("content");
 
 var ownId = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
 
