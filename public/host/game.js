@@ -1,6 +1,6 @@
 
 //Make connection
-var socket = io.connect("http://localhost:4000");
+var socket = io.connect("http://192.168.0.206:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
@@ -11,7 +11,8 @@ var question = document.getElementById("question"),
     a1 = document.getElementById("answer1"),
     a2 = document.getElementById("answer2"),
     a3 = document.getElementById("answer3"),
-    a4 = document.getElementById("answer4");
+    a4 = document.getElementById("answer4"),
+    event = document.getElementById("event");
 
 socket.on("checkIfOnline", function(){
     socket.emit("stillConnected",{
@@ -32,7 +33,7 @@ function startTimer(question){
         }else{
             timerEndedQuizz(question);
         }
-    }, 20000);
+    }, 15000);
 }
 
 var bestIndexes = [];
@@ -43,14 +44,29 @@ var totalClientsToDrink = 0;
 function timerEndedQuizz(question){
     timerUp = true;
     allAnswers.forEach(answer => {
-        console.log(answer.clientId + " : " + answer.answer);
         if(answer.answer != question.correct){
             socket.emit("drink", {
                 clientId: answer.clientId,
                 type: "drink"
             });
             totalClientsToDrink ++;
-            console.log(answer.clientId + " muss trinken");
+            var answerString = "";
+            switch(question.correct){
+                case 0:
+                    answerString = question.answer1;
+                    break;
+                case 1:
+                    answerString = question.answer2;
+                    break;
+                case 2:
+                    answerString = question.answer3;
+                    break;
+                case 3:
+                    answerString = question.answer4;
+                    break;
+            }
+            question.innerHTML = "Die richtige Antwort war: " + answerString;
+            drink.innerHTML = answerString;
         }
     });
 
@@ -71,11 +87,10 @@ function timerEndedVoting(question){
     allAnswers.forEach(answer => {
         answersCount[answer.answer] += 1;
     });
+    var endText = question.text + "\n";
     
     if(question.drink == "first"){
         var highestCount = -1;
-
-        console.log(answersCount);
 
         var i = 0;
         answersCount.forEach(count => {
@@ -93,9 +108,8 @@ function timerEndedVoting(question){
                 type: "drink"
             });
             totalClientsToDrink ++;
-            console.log("trinken: " + clients[index].name);
+            endText += (clients[index].name + ",");
         });
-        console.log("trinken: " + bestIndexes);
     }else{
         var lowestCount = answersCount.length + 1;
 
@@ -114,11 +128,12 @@ function timerEndedVoting(question){
                 clientId: clients[index].clientId,
                 type: "drink"
             });
+            endText += (clients[index].name + ",");
             totalClientsToDrink ++;
-            console.log("trinken: " + clients[index].name);
         });
-        console.log("trinken: " + worstIndexes);
     }
+
+    drink.innerHTML = endText;
 }
 
 //Get a list of all players
@@ -130,6 +145,7 @@ socket.emit("requestPlayers",{
 
 socket.on("sendPlayers",function(data){
     clients = data.clients;
+    newQuestion();
 });
 
 var allAnswers = [];
@@ -173,13 +189,15 @@ var newQ;
 function newQuestion(){
     setTimeout(function(){
         allAnswers = [];
+        drink.innerHTML = "";
+        event.innerHTML = "";
         //Event
         if(Math.random() > 0.5){
             totalClientsToDrink = 1;
             alreadyDrunk = 0;
             var newEvent = events[Math.floor(Math.random() * events.length)];
             var possibleClients = shuffle(clients);
-            console.log("new Event: " + newEvent.text.format(possibleClients[0].name, possibleClients[1].name));
+            event.innerHTML = newEvent.text.format(possibleClients[0].name, possibleClients[1].name);
             a1.innerText = "";
             a2.innerText = "";
             a3.innerText = "";
@@ -223,7 +241,7 @@ function newQuestion(){
                 startTimer(newQ);
             }
         }
-    }, 1500);
+    }, 500);
 }
 
 //Shuffle
@@ -270,6 +288,3 @@ var events = [{
 },{
     text: "{0} muss allen ein Video zeigen. Falls keiner lacht muss er/sie einen Schluck trinken."
 }];
-
-//Has to be called after initializing the array!!!!!!!!!!!!!!
-newQuestion();

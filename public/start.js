@@ -1,5 +1,5 @@
 //Make connection
-var socket = io.connect("http://localhost:4000");
+var socket = io.connect("http://192.168.0.206:4000");
 
 var newGame = document.getElementById("newGame");
 var joinGameInput = document.getElementById("joinGameInput");
@@ -10,11 +10,6 @@ var content = document.getElementById("content");
 var ownId = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
 
 newGame.addEventListener("click", function(){
-    /*var id = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    //Send / Emit data to server
-    socket.emit("newGame", {
-        gameId: id
-    });*/
     window.location.href = ("/newGame.html?ownId=" + ownId); //&gameId=gameId
 });
 

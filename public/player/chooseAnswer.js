@@ -1,5 +1,5 @@
 //Make connection
-var socket = io.connect("http://localhost:4000");
+var socket = io.connect("http://192.168.0.206:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
@@ -11,6 +11,8 @@ var question = document.getElementById("question"),
     options = document.getElementById("options"),
     accept = document.getElementById("accept");
     playerCount = 0;
+
+accept.style.visibility = "hidden";
 
 socket.on("receiveOptions", function(data){
     if(data.gameId == gameId){
@@ -25,7 +27,6 @@ socket.on("receiveOptions", function(data){
     
         for(var i = 0; i < n; i++){
             var button = document.getElementById(i);
-            console.log(button.id);
             const value = button.id;
             button.addEventListener("click", function(){
                 console.log("emitting answer: " + value);
@@ -41,6 +42,7 @@ socket.on("receiveOptions", function(data){
 
 socket.on("drink", function(data){
     if(data.clientId == ownId){
+        accept.style.visibility = "visible";
         if(data.type == "drink"){
             console.log("I have to drink");
         }else{
@@ -50,6 +52,7 @@ socket.on("drink", function(data){
 });
 
 accept.addEventListener("click", function(){
+    accept.style.visibility = "hidden";
     socket.emit("newRound", {
         gameId: gameId
     });
