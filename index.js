@@ -17,7 +17,7 @@ var allGames = [];
 var io = socket(server);
 
 //Track current connections
-var currentHosts = []
+var currentHosts = [];
 var stillConnectedHosts = [];
 //Check what connections are still there, delete games if host is disconnected
 //use setInterval(function, 3000) and setTimeout(function, 3000)
@@ -78,8 +78,6 @@ io.on("connection", function(socket){
 
                 if(newPlayer){         
                     //Game exists and name is not already given, add client to game
-                    //console.log("Id found game id:" + game.gameId + " client to join: " + data.clientId);
-                    //game.clientIds.push(data.clientId);
                     game.clients.push({
                         clientId: data.clientId,
                         name: data.clientName
@@ -124,6 +122,46 @@ io.on("connection", function(socket){
             gameId: data.gameId,
             clients: allClients
         });
+    });
+
+    socket.on("requestPlayers", function(data){
+        var allClients;
+        allGames.forEach(game => {
+            if(game.gameId == data.gameId){
+                allClients = game.clients;
+            }
+        });
+        socket.emit("sendPlayers", {
+            clients: allClients
+        });
+    });
+
+    socket.on("sendAnswer", function(data){
+        io.sockets.emit("receiveAnswer", {
+            gameId: data.gameId,
+            clientId: data.clientId,
+            answer: data.answer
+        });
+    });
+
+    socket.on("drink", function(data){
+        io.sockets.emit("drink", {
+            clientId: data.clientId,
+            type: data.type
+        });
+    });
+
+    socket.on("sendOptions", function(data){
+        io.sockets.emit("receiveOptions", {
+            options: data.options,
+            gameId: data.gameId
+        });
+    });
+
+    socket.on("newRound", function(data){
+        io.sockets.emit("newRound", {
+            gameId: data.gameId
+        })
     });
 
     socket.on("isOnline", function(data){

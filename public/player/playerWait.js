@@ -12,6 +12,7 @@ socket.on("continueToGame", function(data){
         data.clients.forEach(client => {
             if(client.clientId == ownId){
                 console.log(clientName + " joins game: " + data.gameId);
+                window.location.href = ("/player/chooseAnswer.html?ownId=" + ownId + "&gameId=" + gameId + "&clientName=" + clientName);
             }
         });
     }
