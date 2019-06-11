@@ -4,19 +4,32 @@
             <meta charset="utf-8">
             <title>Game host</title>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
+            <link rel="stylesheet" href="/host/game.css">
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet"> 
     </head>
     <body>
-        <h1 id="question"></h1>
+        <div id="divNames">
+            <h1 id="namesTitle">Mitspieler</h1>
+            <ul id="names">
+                    <!--Client names will be placed here-->
+            </ul>
+        </div>
         <h1 id="event"></h1>
         <div id="options">
-            <p1 id="answer1"></p1>
-            <p1 id="answer2"></p1>
-            <p1 id="answer3"></p1>
-            <p1 id="answer4"></p1>
+            <h1 id="question"></h1>
+            <div id="optionFields">
+                <div id=top>
+                    <p1 id="answer1" class="answer"></p1>
+                    <p1 id="answer2" class="answer"></p1>
+                </div>
+                <div id="bottom">
+                    <p1 id="answer3" class="answer"></p1>
+                    <p1 id="answer4" class="answer"></p1>
+                </div>
+            </div>
+            <hr id="timer"></hr>
         </div>
         <p1 id="drink"></p1>
-        <h1 id=timer></h1>
         <script src="/host/game.js"></script>
     </body>
 </html>

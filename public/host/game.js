@@ -13,7 +13,15 @@ var question = document.getElementById("question"),
     a3 = document.getElementById("answer3"),
     a4 = document.getElementById("answer4"),
     event = document.getElementById("event"),
-    timer = document.getElementById("timer");
+    timer = document.getElementById("timer"),
+    names = document.getElementById("names");
+
+timer.classList.add('notransition');
+timer.style.backgroundColor = "lightgreen";
+timer.offsetHeight;
+timer.classList.remove('notransition');
+
+var answerCol = a1.style.backgroundColor;
 
 socket.on("checkIfOnline", function(){
     socket.emit("stillConnected",{
@@ -31,16 +39,24 @@ function startTimer(question){
 }
 
 function changeClock(seconds, question){
-    timer.innerHTML = seconds + "s";
+    timer.style.width = "93.4%";
+    timer.style.backgroundColor = "red";
     setTimeout(function(){
         seconds --;
-        timer.innerHTML = seconds + "s";
+        var startWidthTimer = timer.style.width;
         if(seconds > 0){
             changeClock(seconds, question);
+            var w = 6.6 * (seconds - 1);
+            timer.style.width = w.toString() + "%";
         }else{
             Evaluate(question);
+            timer.style.width = "0%";
+            timer.classList.add('notransition');
+            timer.style.backgroundColor = "lightgreen";
+            timer.offsetHeight;
+            timer.classList.remove('notransition');
         }
-    },1000)
+    },1000);
 }
 
 function Evaluate(question){
@@ -65,26 +81,24 @@ function timerEndedQuizz(question){
                 clientId: answer.clientId,
                 type: "drink"
             });
+            document.getElementById(answer.clientId).style.backgroundColor = "red";
             totalClientsToDrink ++;
-            var answerString = "";
-            switch(question.correct){
-                case 0:
-                    answerString = question.answer1;
-                    break;
-                case 1:
-                    answerString = question.answer2;
-                    break;
-                case 2:
-                    answerString = question.answer3;
-                    break;
-                case 3:
-                    answerString = question.answer4;
-                    break;
-            }
-            question.innerHTML = "Die richtige Antwort war: " + answerString;
-            drink.innerHTML = answerString;
         }
     });
+    switch(question.correct){
+        case 0:
+            a1.style.backgroundColor = "green";
+            break;
+        case 1:
+            a2.style.backgroundColor = "green";
+            break;
+        case 2:
+            a3.style.backgroundColor = "green";
+            break;
+        case 3:
+            a4.style.backgroundColor = "green";
+            break;
+    }
 
     if(totalClientsToDrink == 0){
         newQuestion();
@@ -125,6 +139,7 @@ function timerEndedVoting(question){
             });
             totalClientsToDrink ++;
             endText += (clients[index].name + ",");
+            document.getElementById(clients[index].clientId).style.backgroundColor = "red";
         });
     }else{
         var lowestCount = answersCount.length + 1;
@@ -146,6 +161,7 @@ function timerEndedVoting(question){
             });
             endText += (clients[index].name + ",");
             totalClientsToDrink ++;
+            document.getElementById(clients[index].clientId).style.backgroundColor = "red";
         });
     }
 
@@ -163,9 +179,15 @@ socket.emit("requestPlayers",{
     gameId: gameId
 });
 
+var playerNames = [];
+
 socket.on("sendPlayers",function(data){
     clients = data.clients;
     newQuestion();
+    clients.forEach(client => {
+        names.innerHTML += "<li id='" + client.clientId + "' class='playerName'>" + client.name + "</li>";
+        playerNames.push(document.getElementById(client.clientId));
+    });
 });
 
 var allAnswers = [];
@@ -196,6 +218,8 @@ var alreadyDrunk = 0;
 
 socket.on("newRound",function(data){
     alreadyDrunk ++;
+    console.log(data.clientId);
+    document.getElementById(data.clientId).style.background = "none";
     console.log("receive");
     if(timerUp && alreadyDrunk == totalClientsToDrink){
         if(data.gameId == gameId){
@@ -208,22 +232,27 @@ var newQ;
 
 function newQuestion(){
     setTimeout(function(){
+        timer.style.width = "100%";
         allAnswers = [];
         drink.innerHTML = "";
         event.innerHTML = "";
         timer.innerHTML = "";
+        a1.style.backgroundColor = answerCol;
+        a2.style.backgroundColor = answerCol;
+        a3.style.backgroundColor = answerCol;
+        a4.style.backgroundColor = answerCol;
         //Event
-        if(Math.random() > 0.5){
+        if(Math.random() > 0.85){
             totalClientsToDrink = 1;
             alreadyDrunk = 0;
             var newEvent = events[Math.floor(Math.random() * events.length)];
             var possibleClients = shuffle(clients);
-            event.innerHTML = newEvent.text.format(possibleClients[0].name, possibleClients[1].name);
-            question.innerHTML = "";
-            a1.innerText = "";
-            a2.innerText = "";
-            a3.innerText = "";
-            a4.innerHTML = "";
+            question.innerHTML = newEvent.text.format(possibleClients[0].name, possibleClients[1].name);
+            //question.innerHTML = "";
+            a1.style.visibility = "hidden";
+            a2.style.visibility = "hidden";
+            a3.style.visibility = "hidden";
+            a4.style.visibility = "hidden";
             socket.emit("drink", {
                 clientId: possibleClients[0].clientId,
                 type: "event"
@@ -239,6 +268,10 @@ function newQuestion(){
             a2.innerText = newQ.answer2;
             a3.innerText = newQ.answer3;
             a4.innerHTML = newQ.answer4;
+            a1.style.visibility = "visible";
+            a2.style.visibility = "visible";
+            a3.style.visibility = "visible";
+            a4.style.visibility = "visible";
 
             socket.emit("sendOptions", {
                 gameId: gameId,
@@ -251,6 +284,10 @@ function newQuestion(){
                 a2.innerText = "";
                 a3.innerText = "";
                 a4.innerHTML = "";
+                a1.style.visibility = "hidden";
+                a2.style.visibility = "hidden";
+                a3.style.visibility = "hidden";
+                a4.style.visibility = "hidden";
                 var clientNames = [];
                 clients.forEach(client => {
                     clientNames.push(client.name);

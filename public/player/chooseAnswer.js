@@ -9,10 +9,14 @@ var clientName = URLParam.get("clientName");
 
 var question = document.getElementById("question"),
     options = document.getElementById("options"),
-    accept = document.getElementById("accept");
+    accept = document.getElementById("accept"),
+    acceptBtn = document.getElementById("acceptBtn"),
+    acceptChallenge = document.getElementById("challenge"),
+    acceptChallengeBtn = document.getElementById("acceptChallengeBtn");
     playerCount = 0;
 
 accept.style.visibility = "hidden";
+acceptChallenge.style.visibility = "hidden";
 
 socket.on("receiveOptions", function(data){
     if(data.gameId == gameId){
@@ -20,8 +24,9 @@ socket.on("receiveOptions", function(data){
         options.innerHTML = "";
         //Populate answers
         var n = 0;
+        allButtons = [];
         allOptions.forEach(oneOption => {
-            options.innerHTML += "<button id=" + n + ">" + oneOption + "</button>";
+            options.innerHTML += "<button id=" + n + " class='optionButton'>" + oneOption + "</button>";
             n++;
         });
     
@@ -42,18 +47,28 @@ socket.on("receiveOptions", function(data){
 
 socket.on("drink", function(data){
     if(data.clientId == ownId){
-        accept.style.visibility = "visible";
         if(data.type == "drink"){
             console.log("I have to drink");
+            accept.style.visibility = "visible";
         }else{
             console.log("I am the subject of an event!");
+            acceptChallenge.style.visibility = "visible";
         }
     }
 });
 
-accept.addEventListener("click", function(){
+acceptBtn.addEventListener("click", function(){
     accept.style.visibility = "hidden";
     socket.emit("newRound", {
-        gameId: gameId
+        gameId: gameId,
+        clientId: ownId
+    });
+});
+
+acceptChallengeBtn.addEventListener("click", function(){
+    acceptChallenge.style.visibility = "hidden";
+    socket.emit("newRound", {
+        gameId: gameId,
+        clientId: ownId
     });
 });

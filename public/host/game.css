@@ -1,0 +1,91 @@
+body{
+    margin: 150px;
+    background-image: url("/images/partyBlur.jpg");
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+#divNames{
+    text-align: center;
+    float: right;
+    padding-left: 20px;
+}
+
+#names{
+    list-style-type: none;
+}
+
+#namesTitle{
+    margin-top: 0px;
+    margin-left: 20px;
+    background-color: purple;
+    border-radius: 7px;
+    padding: 7px;
+    box-shadow: 10px 10px 5px black;
+}
+
+.playerName{
+    font-size: 25pt;
+    border-radius: 7px;
+    color: white;
+    margin-top: 10px;
+    box-shadow: 10px 10px 5px black;
+    background-color: none;
+    border: none;
+}
+
+#question{
+    font-size: 45pt;
+    background-color: #5dc3f4;
+    color: white;
+    border-radius: 7px;
+    padding: 11px;
+    box-shadow: 10px 10px 5px black;
+    text-align: center;
+}
+
+#options{
+    margin-top: 100px;
+    text-align: center;
+    margin-right: 250px;
+}
+
+#optionFields{
+    display: block;
+    margin-top: 100px;
+}
+
+.answer{
+    background-color: lightblue;
+    color: white;
+    border-radius: 7px;
+    font-size: 40pt;
+    margin: 10px;
+    padding: 11px;
+    box-shadow: 10px 10px 5px black;
+    width: 100px;
+}
+
+#top{
+    float: top;
+    margin-bottom: 40px;
+}
+
+#timer{
+    background-color: lightgreen;
+    margin-top: 300px;
+    height: 15px;
+    border-radius: 10px;
+    width: 100%;
+    transition: width 1s,
+    background-color 15s;
+    transition-timing-function: linear;
+    border: 0;
+    box-shadow: 10px 10px 5px black;
+}
+
+.notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}

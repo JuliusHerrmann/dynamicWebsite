@@ -1,0 +1,81 @@
+body{
+    background-image: url("/images/partyBlurPhone.jpg");
+    font-family: 'Nunito Sans', sans-serif;
+    background-size: 100%;
+}
+
+#top{
+    font-size: 55pt;
+    text-align: center;
+    color: white;
+}
+
+#options{
+    text-align: center;
+}
+
+.optionButton{
+    color: white;
+    display: block;
+    font-size: 80pt;
+    box-shadow: 10px 10px 5px black;
+    background-color: lightblue;
+    text-decoration: none;
+    margin: auto;
+    margin-top: 5%;
+    padding: 10px;
+    border-radius: 7px;
+    border: none;
+    max-width: 85%;
+    min-width: 20%;
+}
+
+.optionButton:active{
+    background-color: blue;
+}
+
+.optionButton:focus{
+    background-color: blue;
+}
+
+.popup{
+    box-shadow: 10px 10px 5px black;
+    background-color: lightcoral;
+    position: absolute;
+    border-radius: 15px;
+    margin: 3%;
+    margin-top: 1%;
+    padding: 10px;
+    text-align: center;
+    width: 90%;
+    height: 90%;
+}
+
+#acceptText{
+    font-size: 60pt;
+    box-shadow: 10px 10px 5px black;
+    background-color: lightblue;
+    border-radius: 7px;
+    margin: 10%;
+    padding:10px;
+    color: white;
+}
+
+#acceptImage{
+    display: block;
+    margin: auto;
+}
+
+.acceptButton{
+    color: white;
+    display: block;
+    font-size: 80pt;
+    box-shadow: 10px 10px 5px black;
+    background-color: lightblue;
+    text-decoration: none;
+    margin: auto;
+    margin-top: 10%;
+    padding: 10px;
+    border-radius: 7px;
+    border: none;
+}

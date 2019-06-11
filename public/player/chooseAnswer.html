@@ -4,13 +4,23 @@
         <meta charset="utf-8">
         <title>Choose answer</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <link rel="stylesheet" href="/player/chooseAnswer.css">
     </head>
     <body>
-        <h1>Wähle eine Antwort aus!</h1>
+        <div id="accept" class="popup">
+            <h1 id="acceptText">Du musst trinken!</h1>
+            <img src="/images/Beer-icon.png" id="acceptImage">
+            <button id="acceptBtn" class="acceptButton">Erledigt</button>
+        </div>
+        <div id="challenge" class="popup">
+                <h1 id="acceptText">Aufgabe!</h1>
+                <img src="/images/Beer-icon.png" id="acceptImage">
+                <button id="acceptChallengeBtn" class="acceptButton">Erledigt</button>
+            </div>
+        <h1 id="top">Wähle eine Antwort aus!</h1>
         <div id="options">
             <!--Buttons will be automatically placed here!-->
         </div>
-        <button id="accept">Erledigt</button>
         <script src="/player/chooseAnswer.js"></script>
     </body>
 </html>

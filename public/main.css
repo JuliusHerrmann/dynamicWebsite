@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+}
+
+#heading{
+    text-align: center;
+    font-size: 6em;
+    background-color: lightblue;
+    box-shadow: 10px 10px 5px black;
+    padding: 10px;
+    border-radius: 7px;
+    max-width: 900px;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+#background{
+    margin: 0;
+    margin-top: -7%;
+    background-image: url("/images/partyBlur.jpg");
+    font-family: 'Nunito Sans', sans-serif;
+    background-size: cover;
+    height: 100vh;
+    padding: 5%;
+    padding-top: 10%;
+    text-align: center;
+}
+
+hr{
+    border: 0;
+    background-color: black;
+    height: 2px;
+}
+
+.inp{
+    margin: 2%;
+    font-size: 30pt;
+    color: white;
+    max-width: 90%;
+    text-align: center;
+    border-color: lightblue;
+    background: none;
+    box-shadow: 10px 10px 5px black;
+    border-radius: 7px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: white;
+  }

@@ -160,7 +160,8 @@ io.on("connection", function(socket){
 
     socket.on("newRound", function(data){
         io.sockets.emit("newRound", {
-            gameId: data.gameId
+            gameId: data.gameId,
+            clientId: data.clientId
         })
     });
 
@@ -168,7 +169,6 @@ io.on("connection", function(socket){
         allClients.push(data.clientId);
     });
     //Send / Emit data to every client !!!!! Different from socket.emit
-    //io.sockets.emit("test", data);
 });
 
 var game = {
