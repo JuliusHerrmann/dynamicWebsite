@@ -106,6 +106,8 @@ function timerEndedQuizz(question){
 }
 
 function timerEndedVoting(question){
+    drink.innerHTML = question.text;
+    drink.style.visibility = "visible";
     timerUp = true;
     bestIndexes = [];
     worstIndexes = [];
@@ -117,7 +119,6 @@ function timerEndedVoting(question){
     allAnswers.forEach(answer => {
         answersCount[answer.answer] += 1;
     });
-    var endText = question.text + "\n";
     
     if(question.drink == "first"){
         var highestCount = -1;
@@ -138,7 +139,6 @@ function timerEndedVoting(question){
                 type: "drink"
             });
             totalClientsToDrink ++;
-            endText += (clients[index].name + ",");
             document.getElementById(clients[index].clientId).style.backgroundColor = "red";
         });
     }else{
@@ -159,7 +159,6 @@ function timerEndedVoting(question){
                 clientId: clients[index].clientId,
                 type: "drink"
             });
-            endText += (clients[index].name + ",");
             totalClientsToDrink ++;
             document.getElementById(clients[index].clientId).style.backgroundColor = "red";
         });
@@ -168,8 +167,6 @@ function timerEndedVoting(question){
     if(totalClientsToDrink == 0){
         newQuestion();
     }
-
-    drink.innerHTML = endText;
 }
 
 //Get a list of all players
@@ -237,6 +234,7 @@ function newQuestion(){
         drink.innerHTML = "";
         event.innerHTML = "";
         timer.innerHTML = "";
+        drink.style.visibility = "hidden";
         a1.style.backgroundColor = answerCol;
         a2.style.backgroundColor = answerCol;
         a3.style.backgroundColor = answerCol;
@@ -348,15 +346,15 @@ var questions = [{
     drink:"first"
 },{
     question: "Wer ist der stärkste?",
-    text:"Alle schwächlinge müssen trinken!",
+    text:"Alle Schwächlinge müssen trinken!",
     drink:"last"
 },{
     question: "Wer kann die meisten Sprachen sprechen?",
-    text:"Du darfst was trinken, superhirn!",
+    text:"Du darfst was trinken, Superhirn!",
     drink:"first"
 },{
     question: "Wer ist schon am betrunkensten?",
-    text:"Zum aufholen müssen alle anderen trinken, langweiler!",
+    text:"Zum aufholen müssen alle Anderen trinken, Langweiler!",
     drink:"last"
 },{
     question: "Wer ist der schnellste?",
@@ -372,7 +370,7 @@ var questions = [{
     drink:"first"
 },{
     question: "Wer ist am sportlichsten?",
-    text:"Der sportlichste trinkt nicht, denn Alkohol ist nicht gut für sportler!",
+    text:"Der Sportlichste trinkt nicht, denn Alkohol ist nicht gut für Sportler!",
     drink:"last"
 },{
     question: "Was ist eine Lyoner?",
@@ -427,7 +425,7 @@ var questions = [{
     question: "Was wird Tee genannt?",
     answer1:"Eine Kampfsportart",
     answer2:"Eine besondere Teekanne",
-    answer3:"Stift aus Holz/Plastik",
+    answer3:"Ein Stift aus Plastik",
     answer4:"Ein Buch",
     correct:2
 },{
@@ -438,7 +436,7 @@ var questions = [{
     answer4:"Antenne",
     correct:2
 },{
-    question: "Welche Fabe haben die Schlümpfe?",
+    question: "Welche Farbe haben die Schlümpfe?",
     answer1:"Rot",
     answer2:"Blau",
     answer3:"Gelb",
@@ -517,7 +515,7 @@ var events = [{
 },{
     text: "{0} muss einen lustigen Text in seine/ihre Story machen oder trinken. {1} darf sich den Text ausdenken."
 },{
-    text: "{0} darf aussuchen wer trinken muss."
+    text: "{0} darf aussuchen wer einen Schluck trinken muss."
 },{
     text: "{0} darf 2 Schlücke verteilen."
 },{
@@ -532,4 +530,10 @@ var events = [{
     text: "{0} muss einen Handstand machen oder trinken."
 },{
     text: "{0} darf auswählen wer sein Glas leer trinken muss."
+},{
+    text: "{0} darf das Glas von {1} auffüllen."
+},{
+    text: "{0} muss ein Lied singen oder trinken."
+},{
+    text: "{0} muss mit {1} einen Walzer tanzen oder trinken."
 }];

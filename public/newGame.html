@@ -4,15 +4,18 @@
         <meta charset="utf-8">
         <title>Neues Spiel</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <link rel="stylesheet" href="/main.css">
     </head>
     <body>
-        <h1>Neues Spiel</h1>
-        <h1 id="newGameId"></h1>
-        <ul id="allPlayersList">
-            
-        </ul>
-        <button id="start">Start!</button>
-
+        <div id="background">
+            <h1 id="heading">Neues Spiel</h1>
+            <p1 id="newGameId" class="inp borderFix"></p1>
+            <br/>
+            <button id="start" class="inp">Start!</button>
+            <ul id="allPlayersList">
+                
+            </ul>
+        </div>    
         <script src="/newGame.js"></script>
     </body>
 </html>

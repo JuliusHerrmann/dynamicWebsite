@@ -15,6 +15,7 @@ body{
 }
 
 #namesTitle{
+    color: white;
     margin-top: 0px;
     margin-left: 20px;
     background-color: purple;
@@ -29,8 +30,12 @@ body{
     color: white;
     margin-top: 10px;
     box-shadow: 10px 10px 5px black;
-    background-color: none;
-    border: none;
+    background: none;
+    border: solid lightblue;
+}
+
+#drink{
+    font-size: 23pt;
 }
 
 #question{
@@ -55,7 +60,8 @@ body{
 }
 
 .answer{
-    background-color: lightblue;
+    background: none;
+    border: solid lightblue;
     color: white;
     border-radius: 7px;
     font-size: 40pt;

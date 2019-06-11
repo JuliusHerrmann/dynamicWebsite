@@ -3,6 +3,7 @@ body{
 }
 
 #heading{
+    color: white;
     text-align: center;
     font-size: 6em;
     background-color: lightblue;
@@ -20,7 +21,7 @@ body{
     background-image: url("/images/partyBlur.jpg");
     font-family: 'Nunito Sans', sans-serif;
     background-size: cover;
-    height: 100vh;
+    min-height: 100vh;
     padding: 5%;
     padding-top: 10%;
     text-align: center;
@@ -42,6 +43,48 @@ hr{
     background: none;
     box-shadow: 10px 10px 5px black;
     border-radius: 7px;
+    border-width: 3px;
+}
+
+.borderFix{
+    border: solid lightblue;
+    border-width: 3px;
+}
+
+#wait{
+    padding: 10px;
+    font-size: 60pt;
+}
+
+#newGameId{
+    font-size: 50pt;
+    padding: 10px;
+}
+
+#start{
+    margin-top: 3%;
+    background-color: coral;
+    font-size: 50pt;
+    border-width: 5px;
+}
+
+#allPlayersList{
+    text-align: center;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.playerName{
+    margin: auto;
+    font-size: 25pt;
+    border-radius: 7px;
+    color: white;
+    margin-top: 10px;
+    box-shadow: 10px 10px 5px black;
+    background: none;
+    border: solid lightblue;
+    max-width: 15%;
+    padding: 7px;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

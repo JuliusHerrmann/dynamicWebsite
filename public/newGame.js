@@ -30,7 +30,7 @@ socket.on("updatePlayers", function(data){
     if(gameId == data.gameId){
         var newList = "";
         data.newClients.forEach(client => {
-            newList += "<li>" + client.name + "</li>";
+            newList += "<li class='playerName'>" + client.name + "</li>";
         });
         allPlayersList.innerHTML = newList;
     

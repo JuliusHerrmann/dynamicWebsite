@@ -2,11 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Wait for connections</title>
+        <title>Warten</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <link rel="stylesheet" href="/main.css">
     </head>
     <body>
-        <h1>Auf andere warten...</h1>
+        <div id="background">
+            <p1 id="wait" class="inp borderFix">Auf Spieler warten...</p1>
+        </div>
 
         <script src="/player/playerWait.js"></script>
     </body>

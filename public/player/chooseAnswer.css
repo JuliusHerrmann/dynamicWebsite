@@ -1,5 +1,6 @@
 body{
     background-image: url("/images/partyBlurPhone.jpg");
+    min-height: 100vh;
     font-family: 'Nunito Sans', sans-serif;
     background-size: 100%;
 }
@@ -19,23 +20,25 @@ body{
     display: block;
     font-size: 80pt;
     box-shadow: 10px 10px 5px black;
-    background-color: lightblue;
     text-decoration: none;
     margin: auto;
     margin-top: 5%;
     padding: 10px;
     border-radius: 7px;
-    border: none;
     max-width: 85%;
     min-width: 20%;
+    background: none;
+    border: solid lightblue;
+    border-width: 5px;
+
 }
 
 .optionButton:active{
-    background-color: blue;
+    background-color: lightblue;
 }
 
 .optionButton:focus{
-    background-color: blue;
+    background-color: lightblue;
 }
 
 .popup{
