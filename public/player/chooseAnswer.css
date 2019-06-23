@@ -43,7 +43,7 @@ body{
 
 .popup{
     box-shadow: 10px 10px 5px black;
-    background-color: lightcoral;
+    background-color: rgb(250, 174, 32);
     position: absolute;
     border-radius: 15px;
     margin: 3%;
@@ -57,7 +57,7 @@ body{
 #acceptText{
     font-size: 60pt;
     box-shadow: 10px 10px 5px black;
-    background-color: lightblue;
+    background-color: rgb(218, 47, 47);
     border-radius: 7px;
     margin: 10%;
     padding:10px;
@@ -74,7 +74,7 @@ body{
     display: block;
     font-size: 80pt;
     box-shadow: 10px 10px 5px black;
-    background-color: lightblue;
+    background-color: green;
     text-decoration: none;
     margin: auto;
     margin-top: 10%;

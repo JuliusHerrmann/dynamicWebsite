@@ -89,6 +89,11 @@ body{
     box-shadow: 10px 10px 5px black;
 }
 
+#drink{
+    background-color: #5dc3f4;
+    border: none !important;
+}
+
 .notransition {
     -webkit-transition: none !important;
     -moz-transition: none !important;

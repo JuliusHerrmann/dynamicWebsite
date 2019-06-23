@@ -321,31 +321,31 @@ var questions = [{
     text:"Ihr könnt ja nicht mal singen... aber hoffentlich trinken!",
     drink:"first"
 },{
-    question: "Wer ist der dümmste?",
-    text:"Ihr seid so dumm ihr müsst erst mal trinken, kann ja eh nichts verloren gehen.",
+    question: "Wer ist der Dümmste?",
+    text:"Ihr seid so dumm, ihr müsst erst mal trinken. Kann ja eh nichts verloren gehen.",
     drink:"first"
 },{
     question: "Wer ist der größte Mitspieler?",
-    text:"Der oder die größten im Raum müssen trinken, da passt ja auch mehr rein!",
+    text:"Der oder die Größten im Raum müssen trinken, da passt ja auch mehr rein!",
     drink:"first"
 },{
-    question: "Wer ist der dümmste?",
-    text:"Ihr seid wohl nicht die dümmsten aber dürft trotzdem trinken!",
+    question: "Wer ist der Dümmste?",
+    text:"Ihr seid wohl nicht die Dümmsten aber dürft trotzdem trinken!",
     drink:"last"
 },{
     question: "Wer sieht am besten aus?",
-    text:"Dafür dass du so gut aussiehst musst du trinken!",
+    text:"Dafür, dass du so gut aussiehst, musst du trinken!",
     drink:"first"
 },{
-    question: "Wer ist der schlauste?",
-    text:"Nur weil du schlau bist musst du trinken!",
+    question: "Wer ist der Schlauste?",
+    text:"Nur, weil du schlau bist, musst du trinken!",
     drink:"first"
 },{
-    question: "Wer ist der beste in der Schule?",
-    text:"Trink, streber!",
+    question: "Wer ist der Beste in der Schule?",
+    text:"Trink, Streber!",
     drink:"first"
 },{
-    question: "Wer ist der stärkste?",
+    question: "Wer ist der Stärkste?",
     text:"Alle Schwächlinge müssen trinken!",
     drink:"last"
 },{
@@ -354,10 +354,10 @@ var questions = [{
     drink:"first"
 },{
     question: "Wer ist schon am betrunkensten?",
-    text:"Zum aufholen müssen alle Anderen trinken, Langweiler!",
+    text:"Zum Aufholen müssen alle Anderen trinken, Langweiler!",
     drink:"last"
 },{
-    question: "Wer ist der schnellste?",
+    question: "Wer ist der Schnellste?",
     text:"Dann kannst du auch schnell mal was trinken!",
     drink:"first"
 },{
@@ -365,7 +365,7 @@ var questions = [{
     text:"Aus Mitleid trinken jetzt alle anderen!",
     drink:"last"
 },{
-    question: "Wer ist der erfolgreichste?",
+    question: "Wer ist der Erfolgreichste?",
     text:"Hoffentlich bist du auch erfolgreich beim Trinken!",
     drink:"first"
 },{

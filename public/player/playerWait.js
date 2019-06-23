@@ -1,4 +1,4 @@
-var socket = io.connect("http://192.168.0.206:4000");
+var socket = io.connect("localhost:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
