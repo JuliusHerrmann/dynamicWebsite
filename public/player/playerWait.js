@@ -1,4 +1,4 @@
-var socket = io.connect("192.168.0.123:4000");
+var socket = io.connect("https://partystartergame.herokuapp.com");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
