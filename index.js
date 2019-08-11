@@ -83,11 +83,21 @@ io.on("connection", function(socket){
                         name: data.clientName
                     });
 
+                    //Check if Host
+                    console.log("Players of game " + game.gameId + ": " + game.clients.length + " id+ " + data.clientId);
+
+                    if(game.clients.length == 1){
+                        console.log("new Host: " + data.clientId);
+                        io.sockets.emit("makeHost",{
+                            clientId: data.clientId
+                        });
+                    }
+
                     //Respond to client, in this case the client can join
                     io.sockets.emit("response", {
                         canJoin: true,
                         clientId: data.clientId,
-                        gameId: data.gameId
+                        gameId: data.gameId,
                     });
 
                     //Update player list
@@ -106,6 +116,12 @@ io.on("connection", function(socket){
             }
         });
         //socket.disconnect();
+    });
+
+    socket.on("requestStart", function(data){
+        io.sockets.emit("beginGame",{
+            gameId: data.gameId
+        });
     });
 
     //Start a new game
@@ -167,6 +183,13 @@ io.on("connection", function(socket){
 
     socket.on("isOnline", function(data){
         allClients.push(data.clientId);
+    });
+
+    //Skip question
+    socket.on("skip", function(data){
+        io.sockets.emit("skip", {
+            gameId: data.gameId
+        });
     });
     //Send / Emit data to every client !!!!! Different from socket.emit
 });

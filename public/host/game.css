@@ -15,6 +15,7 @@ body{
 }
 
 #namesTitle{
+    text-shadow: 4px 4px 1px black;
     color: white;
     margin-top: 0px;
     margin-left: 20px;
@@ -25,6 +26,7 @@ body{
 }
 
 .playerName{
+    text-shadow: 3px 3px 1px black;
     font-size: 25pt;
     border-radius: 7px;
     color: white;
@@ -36,9 +38,11 @@ body{
 
 #drink{
     font-size: 23pt;
+    text-shadow: 3px 3px 1px black !important;
 }
 
 #question{
+    text-shadow: 6px 6px 4px black;    
     font-size: 45pt;
     background-color: #5dc3f4;
     color: white;
@@ -60,6 +64,7 @@ body{
 }
 
 .answer{
+    text-shadow: 4px 4px 1.5px black;
     background: none;
     border: solid lightblue;
     color: white;

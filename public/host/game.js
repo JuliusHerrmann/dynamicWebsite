@@ -1,6 +1,5 @@
-
 //Make connection
-var socket = io.connect("http://192.168.0.206:4000");
+var socket = io.connect("192.168.0.123:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
@@ -119,7 +118,7 @@ function timerEndedVoting(question){
     allAnswers.forEach(answer => {
         answersCount[answer.answer] += 1;
     });
-    
+
     if(question.drink == "first"){
         var highestCount = -1;
 
@@ -200,7 +199,7 @@ socket.on("receiveAnswer", function(data){
                     found = true;
                 }
             });
-        
+
             if(!found){
                 allAnswers.push({
                     clientId: data.clientId,
@@ -226,6 +225,9 @@ socket.on("newRound",function(data){
 });
 
 var newQ;
+var first = true;
+
+var questionsCopy;
 
 function newQuestion(){
     setTimeout(function(){
@@ -239,11 +241,39 @@ function newQuestion(){
         a2.style.backgroundColor = answerCol;
         a3.style.backgroundColor = answerCol;
         a4.style.backgroundColor = answerCol;
-        //Event
-        if(Math.random() > 0.85){
+
+        if(first){
+            questionsCopy = questions;
+            //Event
             totalClientsToDrink = 1;
             alreadyDrunk = 0;
-            var newEvent = events[Math.floor(Math.random() * events.length)];
+            var newEvent = ekelglas[0];
+            var possibleClients = shuffle(clients);
+            question.innerHTML = newEvent.text.format(possibleClients[0].name, possibleClients[1].name);
+            //question.innerHTML = "";
+            a1.style.visibility = "hidden";
+            a2.style.visibility = "hidden";
+            a3.style.visibility = "hidden";
+            a4.style.visibility = "hidden";
+            socket.emit("drink", {
+                clientId: possibleClients[0].clientId,
+                type: "event"
+            });
+            first = false;
+            return;
+        }
+        var randomVal = Math.random();
+        if(randomVal > 0.6){
+            totalClientsToDrink = 1;
+            alreadyDrunk = 0;
+            var newEvent;
+            if(randomVal > 0.90){
+                //Ekelglas
+                newEvent = ekelglas[1];
+            }else{
+                //Event
+                newEvent = events[Math.floor(Math.random() * events.length)]
+            }
             var possibleClients = shuffle(clients);
             question.innerHTML = newEvent.text.format(possibleClients[0].name, possibleClients[1].name);
             //question.innerHTML = "";
@@ -257,7 +287,8 @@ function newQuestion(){
             });
         }else{
         //No event
-        newQ = questions[Math.floor(Math.random() * questions.length)];
+        var rand = Math.floor(Math.random() * questionsCopy.length);
+        newQ = questionsCopy[rand];
         console.log(questions.indexOf(newQ));
         question.innerText = newQ.question;
         //Quizz
@@ -274,7 +305,7 @@ function newQuestion(){
             socket.emit("sendOptions", {
                 gameId: gameId,
                 options: [newQ.answer1, newQ.answer2, newQ.answer3, newQ.answer4]
-            });        
+            });
             startTimer(newQ);
             }else{
                 //Voting
@@ -294,12 +325,26 @@ function newQuestion(){
                     gameId: gameId,
                     options: clientNames
                 });
-            
+
                 startTimer(newQ);
+
             }
+            //Remove question from possible questions
+            questionsCopy.splice(rand, 1);
         }
     }, 500);
 }
+
+//skipQuestion
+socket.on("skip", function(data){
+    if(gameId == data.gameId){
+        alreadyDrunk = totalClientsToDrink;
+        playerNames.forEach(player => {
+            player.style.background = "none";            
+        });
+        newQuestion();
+    }
+});
 
 //Shuffle
 function shuffle(input) {
@@ -311,10 +356,16 @@ function shuffle(input) {
 //Format String
 String.prototype.format = function() {
     var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) { 
+    return this.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined' ? args[number] : match;
     });
 };
+
+var ekelglas = [{
+    text: "Das Ekelglas wird in der Mitte der Runde eingeführt. {0} und {1} fangen jeweils an ein Bisschen eines Alkohols ihrer Wahl hinzuzugeben. Trinkt jemand es leer darf derjenige es auffüllen."
+},{
+    text: "{0} darf ein bisschen von einem beliebigen Getränk in das Ekelglas geben. Ist es schon voll muss zuerst ein bisschen daraus getrunken werden."
+}];
 
 var questions = [{
     question: "Wer kann am schlechtesten singen?",
@@ -373,6 +424,46 @@ var questions = [{
     text:"Der Sportlichste trinkt nicht, denn Alkohol ist nicht gut für Sportler!",
     drink:"last"
 },{
+    question: "Wer isst am meisten??",
+    text:"Hoffentlich kannst du auch viel trinken.",
+    drink:"first"
+},{
+    question: "Wer ist am hässlichsten?",
+    text:"Du bist wohl echt hässlich, vielleicht hilft ja trinken!",
+    drink:"first"
+},{
+    question: "Wer ist am Dicksten?",
+    text:"In dicke Leute passt auch mehr rein ...Hoffentlich...!",
+    drink:"first"
+},{
+    question: "Wer ist am nervigsten?",
+    text:"Vielleicht nervst du ja weniger wenn du betrunken bist!",
+    drink:"first"
+},{
+    question: "Wer jammert am meisten?",
+    text:"Nicht jammern, TRINKEN!",
+    drink:"first"
+},{
+    question: "Wer macht die schlechtesten Witze?",
+    text:"Willst du auch noch einen Witz darüber machen dass du trinken musst?",
+    drink:"first"
+},{
+    question: "Wer macht die besten Witze?",
+    text:"Tja trinken ist noch lustiger!",
+    drink:"first"
+},{
+    question: "Wer sollte definitiv noch mehr trinken?",
+    text:"Tja, hier wird nicht halb lang gemacht!",
+    drink:"first"
+},{
+    question: "Wer hat noch zu wenig getrunken?",
+    text:"Auf geht's, 3 Schlücke TRINKEN!",
+    drink:"first"
+},{
+    question: "Wer verträgt am wenigsten?",
+    text:"Naja wir verschonen diese unglücklichen Leute mal. Die anderen trinken!",
+    drink:"last"
+},{
     question: "Was ist eine Lyoner?",
     answer1:"Süßigkeit",
     answer2:"Wurst",
@@ -395,7 +486,7 @@ var questions = [{
     correct:3
 },{
     question: "Wer ist der reichste Mensch der Welt?",
-    answer1:"Warren Buffet",
+    answer1:"Bill Gates",
     answer2:"Mark Zuckerberg",
     answer3:"Jeff Bezos",
     answer4:"Elon Musk",
@@ -498,6 +589,69 @@ var questions = [{
     answer3:"9 Mrd",
     answer4:"8,3 Mrd",
     correct:0
+},{
+    question: "Nach wie vielen gegessenen Bananen darf man aufgrund des Alkohols kein auto mehr fahren?",
+    answer1:"100",
+    answer2:"60",
+    answer3:"20",
+    answer4:"6",
+    correct:2
+},{
+    question: "Wie viele Kuna sind in etwa 1 Euro?",
+    answer1:"5",
+    answer2:"7",
+    answer3:"10",
+    answer4:"3",
+    correct:1
+},{
+    question: "Woraus wird französischer Cidre gemacht?",
+    answer1:"Birnen",
+    answer2:"Zitronen",
+    answer3:"Äpfel",
+    answer4:"Bananen",
+    correct:2
+},{
+    question: "Was findet man auf einer Pizza Tonno?",
+    answer1:"Thunfisch",
+    answer2:"Ananas",
+    answer3:"Paprika",
+    answer4:"Hackfleisch",
+    correct:0
+},{
+    question: "In welchen Sprachen sind die Straßenschilder in Helsinki?",
+    answer1:"Finnisch, Schwedisch",
+    answer2:"Finnisch, Englisch",
+    answer3:"Finnisch, Russisch",
+    answer4:"Finnisch, Polnisch",
+    correct:0
+},{
+    question: "In welcher Stadt gibt es Sachsenhausen?",
+    answer1:"Berlin",
+    answer2:"München",
+    answer3:"Stuttgart",
+    answer4:"Frankfurt",
+    correct:3
+},{
+    question: "Was ist ein Hokkaido?",
+    answer1:"Pilz",
+    answer2:"Kürbis",
+    answer3:"Melone",
+    answer4:"Brot",
+    correct:1
+},{
+    question: "Aus welchem Material besteht die Freiheitsstaue?",
+    answer1:"Eisen",
+    answer2:"Kupfer",
+    answer3:"Messing",
+    answer4:"Blech",
+    correct:1
+},{
+    question: "Wie heißt das Stadion des Fc Liverpool?",
+    answer1:"Anfield",
+    answer2:"Old Trafford",
+    answer3:"Stamford Bridge",
+    answer4:"Goodison Park",
+    correct:0
 }];
 
 var events = [{
@@ -505,7 +659,7 @@ var events = [{
 },{
     text: "{0} muss allen ein Video zeigen. Falls keiner lacht muss er/sie einen Schluck trinken."
 },{
-    text: "{0} muss allen eine peinliche Story erzählen oder trinken."
+    text: "{0} muss allen eine peinliche Story erzählen oder aus dem Ekelglas trinken."
 },{
     text: "{0} muss aus dem Glas von {1} einen Schluck trinken."
 },{
@@ -520,12 +674,20 @@ var events = [{
     text: "{0} darf 2 Schlücke verteilen."
 },{
     text: "{0} darf 5 Schlücke verteilen."
+},,{
+    text: "{0} darf 2 Schlücke verteilen."
+},{
+    text: "{0} darf 5 Schlücke verteilen."
+},,{
+    text: "{0} darf 2 Schlücke verteilen."
+},{
+    text: "{0} darf 5 Schlücke verteilen."
 },{
     text: "{0} darf für die nächsten 5 Runden nicht reden. Beim Verstoß muss getrunken werden."
 },{
-    text: "{0} darf für 10 Runden keinen Namen mehr sagen. Beim Verstoß muss getrunken werden."
+    text: "{0} darf für 5 Runden keinen Namen mehr sagen. Beim Verstoß muss getrunken werden."
 },{
-    text: "{0} darf den Namen von {1} für 5 Runden nicht mehr sagen. Beim Verstoß muss getrunken werden."
+    text: "Jeder darf den Namen von {0} für 5 Runden nicht mehr sagen. Beim Verstoß muss getrunken werden."
 },{
     text: "{0} muss einen Handstand machen oder trinken."
 },{
@@ -535,5 +697,45 @@ var events = [{
 },{
     text: "{0} muss ein Lied singen oder trinken."
 },{
-    text: "{0} muss mit {1} einen Walzer tanzen oder trinken."
+    text: "{0} muss mit {1} einen Walzer tanzen oder aus dem Ekelglas trinken."
+},{
+    text: "{0} muss ein Lied singen oder aus dem Ekelglas trinken."
+},{
+    text: "{0} muss ein Rad machen oder trinken."
+},{
+    text: "{0} muss das Glas von {1} leer trinken."
+},{
+    text: "{0} darf das Glas von {1} auffüllen."
+},{
+    text: "{0} darf für die nächsten 5 Runden jeweils einen Schluck verteilen."
+},{
+    text: "Alle müssen einen Schluck trinken, {0} muss es überprüfen."
+},{
+    text: "{0} muss 10 Liegestützen machen oder 3 Schlücke trinken."
+},{
+    text: "{0} muss jeweils 1 Schluck aus dem Glas von jedem trinken."
+},{
+    text: "{0} muss einen Hampelmann machen oder 2 Schlücke trinken."
+},{
+    text: "{0} muss sich an die Nase fassen. Wenn er/sie es nicht schafft muss getrunken werden."
+},{
+    text: "Jeder, der in einer Beziehung ist muss trinken. {0} bestätigt."
+},{
+    text: "{0} verteilt 2 Schlücke an die Person, die er/sie am hübschesten findet."
+},{
+    text: "{0} muss eine Grimasse schneiden oder trinken."
+},{
+    text: "{0} darf 2 Schlücke an eine Person die dicker ist als er/sie selbst. Gibt es keine Person, muss er/sie selbst trinken."
+},{
+    text: "{0} muss seinen/ihren Namen tanzen oder 2 Schlücke aus dem Ekelglas trinken."
+},{
+    text: "{0} ist für 5 Runden der Sklave von {1} und muss dessen/ihre Schlücke trinken."
+},{
+    text: "{0} und {1} müssen Armdrücken machen. Der Verlierer trinkt."
+},{
+    text: "{0} muss einen Schluck aus dem Ekelglas trinken."
+},{
+    text: "Jeder muss einen Schluck aus dem Ekelglas trinken. {0} fängt an. Ist das Glas leer, füllt der Nächste es mit 3 Getränken auf."
+},{
+    text: "{0} darf 2 Schlücke aus dem Ekelglas verteilen."
 }];

@@ -79,6 +79,13 @@ hr{
     padding-left: 0;
 }
 
+#host{
+    margin-top: 50px;
+    max-width: none;
+    max-width: 40%;
+    border-width: 3px !important;
+}
+
 .playerName{
     margin: auto;
     font-size: 25pt;

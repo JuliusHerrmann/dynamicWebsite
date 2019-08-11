@@ -5,17 +5,38 @@ body{
     background-size: 100%;
 }
 
+hr{
+    border: 0;
+    background-color: black;
+    height: 4px;
+    margin-top: 50px;
+    max-width: 80%;
+}
+
 #top{
     font-size: 55pt;
     text-align: center;
     color: white;
+    border: solid lightblue;
+    border-width: 5px;
+    box-shadow: 10px 10px 5px black;
+    text-shadow: 7px 7px 3px black;
+    max-width: 90%;
+    margin: auto;
+    border-radius: 5px;
 }
 
 #options{
     text-align: center;
 }
 
+#skip{
+    background-color: orange !important;
+    font-size: 60pt;
+}
+
 .optionButton{
+    text-shadow: 7px 7px 3px black;
     color: white;
     display: block;
     font-size: 80pt;
@@ -55,6 +76,7 @@ body{
 }
 
 #acceptText{
+    text-shadow: 6px 6px 2.5px black;
     font-size: 60pt;
     box-shadow: 10px 10px 5px black;
     background-color: rgb(218, 47, 47);
@@ -70,6 +92,7 @@ body{
 }
 
 .acceptButton{
+    text-shadow: 6px 6px 2.5px black;
     color: white;
     display: block;
     font-size: 80pt;

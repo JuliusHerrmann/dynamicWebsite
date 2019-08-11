@@ -1,5 +1,5 @@
 //Make connection
-var socket = io.connect("localhost:4000");
+var socket = io.connect("192.168.0.123:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
@@ -38,7 +38,13 @@ socket.on("updatePlayers", function(data){
     }
 });
 
-start.addEventListener("click", function(){
+socket.on("beginGame", function(data){
+    if(gameId == data.gameId){
+        beginGame();
+    }
+})
+
+function beginGame(){
     if(playerCount > 0){
         console.log("Start a new Game with id: " + gameId);
         socket.emit("startGame", {
@@ -48,4 +54,8 @@ start.addEventListener("click", function(){
     }else{
         console.log("not enough players!");
     }
+}
+
+start.addEventListener("click", function(){
+    beginGame();
 });

@@ -1,11 +1,12 @@
 //Make connection
-var socket = io.connect("http://192.168.0.206:4000");
+var socket = io.connect("192.168.0.123:4000");
 
 //Get Variables
 var URLParam = new URLSearchParams(window.location.search);
 var ownId = URLParam.get("ownId");
 var gameId = URLParam.get("gameId");
 var clientName = URLParam.get("clientName");
+var isHost = URLParam.get("host");
 
 var question = document.getElementById("question"),
     options = document.getElementById("options"),
@@ -13,10 +14,16 @@ var question = document.getElementById("question"),
     acceptBtn = document.getElementById("acceptBtn"),
     acceptChallenge = document.getElementById("challenge"),
     acceptChallengeBtn = document.getElementById("acceptChallengeBtn");
-    playerCount = 0;
+    playerCount = 0,
+    skip = document.getElementById("skip");
 
 accept.style.visibility = "hidden";
 acceptChallenge.style.visibility = "hidden";
+skip.style.visibility = "hidden";
+
+if(isHost == "true"){
+    skip.style.visibility = "visible";
+}
 
 socket.on("receiveOptions", function(data){
     if(data.gameId == gameId){
@@ -71,4 +78,18 @@ acceptChallengeBtn.addEventListener("click", function(){
         gameId: gameId,
         clientId: ownId
     });
+});
+
+skip.addEventListener("click", function(){
+    socket.emit("skip",{
+        gameId: gameId
+    });
+});
+
+//skipQuestion
+socket.on("skip", function(data){
+    if(data.gameId == gameId){
+        accept.style.visibility = "hidden";
+        acceptChallenge.style.visibility = "hidden";
+    }
 });
