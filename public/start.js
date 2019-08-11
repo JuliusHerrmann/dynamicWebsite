@@ -1,5 +1,5 @@
 //Make connection
-var socket = io.connect("https://partystartergame.herokuapp.com");
+var socket = io.connect("https://partystartergame.herokuapp.com/");
 
 var newGame = document.getElementById("newGame");
 var joinGameInput = document.getElementById("joinGameInput");
